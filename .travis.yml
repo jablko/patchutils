@@ -1,6 +1,23 @@
 language: c
 compiler: gcc
 sudo: false
+
+env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   # via the "travis encrypt" command using the project repo's public key
+   - secure: "g1kzWFGNjvPDrT8Q6KrTC4Mttxp5bgiFgLzYyHJtuggTtCCB8T9mPQgLvkMgQKznSN0Bh5U4OEcTO/MDjRSSVYoPuhttBW0LCzMwLqDG2eQnILoXBNZxp9D4tOy0oOZtzhsoNdKlw4n80R7viyP2suHSIL3kdlulINkEFesgJ8c="
+
+addons:
+  coverity_scan:
+    project:
+      name: "twaugh/patchutils"
+      description: "Build submitted via Travis CI"
+    notification_email: twaugh@redhat.com
+    build_command_prepend: "./bootstrap && ./configure"
+    build_command: "make -j 4"
+    branch_pattern: coverity-scan
+
 script: ./bootstrap &&
         ./configure &&
         make distcheck
